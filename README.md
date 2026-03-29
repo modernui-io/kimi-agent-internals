@@ -7,13 +7,10 @@
 
 [![License: Mixed](https://img.shields.io/badge/License-CC0%20%2B%20CC%20BY%204.0-blue)](LICENSE)
 [![Type: Research](https://img.shields.io/badge/Type-Research-0366d6)](https://github.com/dnnyngyen/kimi-agent-internals)
-[![Method: Conversational Extraction](https://img.shields.io/badge/Method-Conversational%20Extraction-blue)](METHODOLOGY.md)
 [![Repo Size](https://img.shields.io/github/repo-size/dnnyngyen/kimi-agent-internals?label=size&color=58a6ff)](https://github.com/dnnyngyen/kimi-agent-internals)
 [![Last Commit](https://img.shields.io/github/last-commit/dnnyngyen/kimi-agent-internals?color=79c0ff)](https://github.com/dnnyngyen/kimi-agent-internals/commits/main)
 
 > An analysis of Moonshot AI's Kimi agent architecture (K2.5 model).
->
-> **AI Disclosure:** This analysis was conducted using [Claude Code](https://claude.ai/code).
 
 ---
 
@@ -23,16 +20,22 @@
 - [Repository Structure](#repository-structure)
 - [Quick Start](#quick-start)
 - [What This Repository Contains](#what-this-repository-contains)
-- [Methodology](#methodology)
 - [License](#license)
 
 ---
 
 ## Overview
 
-This is an analysis of Moonshot AI's Kimi agent architecture and source code. Kimi K2.5 is the underlying model; the agents at kimi.com/chat, kimi.com/agent, and specialized endpoints are different interfaces that use this model. No authentication was bypassed. No binaries were decompiled. Everything here was provided by the agent itself in response to plain-English questions through standard interfaces.
+This is an analysis of Moonshot AI's Kimi agent architecture and source code. Kimi K2.5 is the underlying model; the agents at kimi.com/chat, kimi.com/agent, and specialized endpoints are different interfaces that use this model.
 
-Kimi shifted from tool-use architectures to skill-based environment architectures. Instead of giving the model discrete APIs, it gives the model general-purpose computing contexts: persistent filesystems, browser automation, and process execution. The model acts as an operating system user rather than an API consumer.
+Proof of source: when this repo was shared on Reddit about a bug in the extracted code, Kimi publicly confirmed this was the production code being used. See the comment below. (fixed January 2026)
+
+<blockquote class="reddit-embed-bq" data-embed-height="504">
+<a href="https://www.reddit.com/r/kimi/comments/1r0iao8/comment/o4kq6m7/">Comment</a><br> by
+<a href="https://www.reddit.com/user/Appropriate_Goal_360/">u/Appropriate_Goal_360</a> from discussion
+<a href="https://www.reddit.com/r/kimi/comments/1r0iao8/cryptojacking_malware_found_in_kimicom/"></a><br> in
+<a href="https://www.reddit.com/r/kimi/">kimi</a>
+</blockquote><script async="" src="https://embed.reddit.com/widgets.js" charset="UTF-8"></script>
 
 ---
 
@@ -42,7 +45,6 @@ Kimi shifted from tool-use architectures to skill-based environment architecture
 kimi-agent-internals/
 ├── README.md                 # Main entry point
 ├── GLOSSARY.md               # Terms and definitions
-├── METHODOLOGY.md            # How the analysis was conducted
 ├── LICENSE                   # Mixed: CC0 + CC BY 4.0 + Apache 2.0
 │
 ├── deep-dives/               # Technical reference documentation
@@ -132,26 +134,6 @@ kimi-agent-internals/
 ## What This Repository Contains
 
 System prompts for six agent types: Base Chat, OK Computer, Docs, Sheets, Slides, and Websites. Skill definitions for DOCX, XLSX, PDF, and WebApp output formats. Tool schemas documenting 38 distinct tools. [Source code](source-code/) for the runtime environment. Technical analysis of the architecture, security model, and design patterns.
-
----
-
-## Methodology
-
-This repository contains materials extracted from the Kimi agent
-environment through its standard public interfaces (kimi.com/agent,
-kimi.com/chat, and specialized endpoints). The agent executed shell
-commands and file reads in response to conversational queries to
-retrieve prompts, source code, and configuration files. No code was
-written by the researcher. No authentication was bypassed. No prompt
-injection, jailbreaking, or adversarial techniques were used. See
-[METHODOLOGY.md](METHODOLOGY.md) for complete details.
-
-**Independent verification:**
-- [kimi.com/chat](https://kimi.com/chat) — Base Chat with 10 tool calls
-- [kimi.com/agent](https://kimi.com/agent) — OK Computer with full tool access
-- [kimi.com/docs](https://kimi.com/docs), [kimi.com/sheets](https://kimi.com/sheets), [kimi.com/slides](https://kimi.com/slides), [kimi.com/websites](https://kimi.com/websites) — Specialized agents
-
-This research is independent and not affiliated with Moonshot AI.
 
 ---
 
